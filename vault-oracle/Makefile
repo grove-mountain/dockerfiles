@@ -1,5 +1,6 @@
-IMAGE_NAME := grovemountain/vault
-VERSION    := 1.3.0-oracle-plugin
+include .env
+export
+
 BUILD_ID   := $(shell git rev-parse --short HEAD 2>/dev/null || echo no-commit-id)
 
 .DEFAULT_GOAL := help
