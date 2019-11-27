@@ -1,5 +1,5 @@
 include .env
-export
+export $(shell sed 's/=.*//' .env)
 
 BUILD_ID   := $(shell git rev-parse --short HEAD 2>/dev/null || echo no-commit-id)
 
@@ -7,8 +7,10 @@ BUILD_ID   := $(shell git rev-parse --short HEAD 2>/dev/null || echo no-commit-i
 help: ## List targets & descriptions
 	@cat Makefile* | grep -E '^[a-zA-Z_-]+:.*?## .*$$' | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+DOCKER_BUILD_ARGS := $(shell echo ${BUILD_ARGS})
+
 build: ## Build docker image
-	docker build -t $(IMAGE_NAME):$(VERSION) .
+	docker build $(DOCKER_BUILD_ARGS) -t $(IMAGE_NAME):$(VERSION) .
 	docker tag $(IMAGE_NAME):$(VERSION) $(IMAGE_NAME):$(VERSION)
 	docker tag $(IMAGE_NAME):$(VERSION) $(IMAGE_NAME):latest
 
