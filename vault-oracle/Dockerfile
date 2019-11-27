@@ -21,3 +21,5 @@ COPY --from=0 /tmp/plugins/vault-plugin-database-oracle /vault/plugins
 COPY --from=0 /tmp/lib /vault/lib
 
 RUN chown -R vault:vault /vault
+RUN export CLIENT_DIR=$(ls /vault/lib)
+RUN echo "/lib:/usr/lib:/usr/lib64:/vault/lib/${CLIENT_DIR}" > /etc/ld-musl-x86_64.path
