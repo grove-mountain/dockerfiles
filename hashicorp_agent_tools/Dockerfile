@@ -2,7 +2,7 @@ FROM alpine:3.8 as builder
 
 ENV CONSUL_TEMPLATE_VERSION=0.19.5
 ENV ENVCONSUL_VERSION=0.7.3
-ENV VAULT_VERSION=0.11.1
+ENV VAULT_VERSION=0.11.4
 
 WORKDIR /tmp
 ADD https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.tgz .
@@ -16,3 +16,4 @@ RUN chmod 0755 /usr/local/bin/*
 
 FROM alpine:3.8
 COPY --from=builder /usr/local/bin/* /usr/local/bin/
+RUN apk --no-cache add curl jq
